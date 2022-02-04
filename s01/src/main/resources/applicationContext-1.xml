@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- 在IOC启动的时候，自动加载Spring 实例化Apple对象，取名sweetApple 放入容器中-->
+    <bean id="apple1" class="com.imooc.spring.ioc.entity.Apple">
+        <property name="title" value="红富士-02"/>
+        <property name="color" value="红色"/>
+        <property name="origin" value="欧洲"/>
+    </bean>
+
+    <bean id="apple2" class="com.imooc.spring.ioc.entity.Apple">
+        <property name="title" value="红富士-02"/>
+        <property name="color" value="红色"/>
+        <property name="origin" value="欧洲"/>
+    </bean>
+
+</beans>

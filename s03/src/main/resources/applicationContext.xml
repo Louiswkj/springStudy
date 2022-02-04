@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="computer01" class="com.imooc.spring.ioc.entity.Computer">
+        <constructor-arg name="title" value="dell"/>
+        <constructor-arg name="type" value="台式机"/>
+        <constructor-arg name="sn" value="7892"/>
+        <constructor-arg name="price" value="4500"/>
+    </bean>
+
+    <bean class="com.imooc.spring.ioc.entity.Computer">
+        <constructor-arg name="title" value="dell-超薄本"/>
+        <constructor-arg name="type" value="笔记本"/>
+        <constructor-arg name="sn" value="sn-889893"/>
+        <constructor-arg name="price" value="7500"/>
+    </bean>
+
+    <bean class="com.imooc.spring.ioc.entity.Computer">
+        <constructor-arg name="title" value="dell-游戏本"/>
+        <constructor-arg name="type" value="台式机"/>
+        <constructor-arg name="sn" value="sn-1117892"/>
+        <constructor-arg name="price" value="8500"/>
+    </bean>
+
+    <bean id="company" class="com.imooc.spring.ioc.entity.Company">
+        <property name="rooms">
+            <list>
+                <value>2021-总裁办</value>
+                <value>2023-总经理办公室</value>
+                <value>2025-研发办公室</value>
+            </list>
+        </property>
+        <property name="computers">
+            <map>
+                <entry key="dev-88172" value-ref="computer01"/>
+                <entry key="dev-88173">
+                    <bean class="com.imooc.spring.ioc.entity.Computer">
+                        <constructor-arg name="title" value="联想"/>
+                        <constructor-arg name="type" value="台式机"/>
+                        <constructor-arg name="sn" value="sn88999"/>
+                        <constructor-arg name="price" value="4320"/>
+                    </bean>
+                </entry>
+            </map>
+        </property>
+        <property name="info">
+            <props>
+                <prop key="phone">18812345678</prop>
+                <prop key="address">南京大厦</prop>
+                <prop key="website">http://www.xxx.com</prop>
+            </props>
+        </property>
+    </bean>
+</beans>

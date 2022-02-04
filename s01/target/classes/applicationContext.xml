@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- 在IOC启动的时候，自动加载Spring 实例化Apple对象，取名sweetApple 放入容器中-->
+    <bean id="sweetApple" class="com.imooc.spring.ioc.entity.Apple">
+        <property name="title" value="红富士"/>
+        <property name="color" value="红色"/>
+        <property name="origin" value="欧洲"/>
+    </bean>
+
+    <bean id="greenApple" class="com.imooc.spring.ioc.entity.Apple">
+        <property name="title" value="青苹果"/>
+        <property name="color" value="绿色"/>
+        <property name="origin" value="中亚"/>
+    </bean>
+
+    <bean id="goldApple" class="com.imooc.spring.ioc.entity.Apple">
+        <property name="title" value="金帅"/>
+        <property name="color" value="黄色"/>
+        <property name="origin" value="中国"/>
+    </bean>
+
+    <bean id="softApple" class="com.imooc.spring.ioc.entity.Apple">
+        <constructor-arg name="title" value="黄金帅"/>
+        <constructor-arg name="color" value="黄色"/>
+        <constructor-arg name="origin" value="中国"/>
+    </bean>
+
+    <bean id="softApple2" class="com.imooc.spring.ioc.entity.Apple">
+        <constructor-arg index="0" value="黄金帅"/>
+        <constructor-arg index="1" value="黄色"/>
+        <constructor-arg index="2" value="中国"/>
+    </bean>
+
+    <bean id="sweetAppleStaticFactory" class="com.imooc.spring.ioc.factory.AppleStaticFactory" factory-method="createSweetApple"/>
+
+    <bean id="appleFactoryInstance" class="com.imooc.spring.ioc.factory.AppleFactoryInstance"/>
+    <bean id="sweetAppleFactory" factory-bean="appleFactoryInstance" factory-method="createSweetApple"/>
+
+
+    <bean id="lilyChild" class="com.imooc.spring.ioc.entity.Child">
+        <property name="name" value="莉莉"/>
+        <property name="apple" ref="softApple2"/>
+    </bean>
+
+    <bean id="andyChild" class="com.imooc.spring.ioc.entity.Child">
+        <property name="name" value="安迪"/>
+        <property name="apple" ref="greenApple"/>
+    </bean>
+
+    <bean id="lunaChild" class="com.imooc.spring.ioc.entity.Child">
+        <property name="name" value="露娜"/>
+        <property name="apple" ref="softApple"/>
+    </bean>
+
+    <bean id="apple1" class="com.imooc.spring.ioc.entity.Apple">
+        <property name="title" value="红富士-01"/>
+        <property name="color" value="红色"/>
+        <property name="origin" value="欧洲"/>
+    </bean>
+
+    <bean name="apple11,apple3" class="com.imooc.spring.ioc.entity.Apple">
+        <property name="title" value="红富士-03"/>
+        <property name="color" value="红色"/>
+        <property name="origin" value="欧洲"/>
+    </bean>
+
+</beans>
