@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/lang
+        https://www.springframework.org/schema/lang/spring-lang.xsd
+        http://www.springframework.org/schema/tx
+        https://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/aop
+        https://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!--数据源-->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url"
+                  value="jdbc:mysql://localhost:3306/imooc?useSSL=true&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=Asia/Shanghai&amp;allowPublicKeyRetrieval=true"/>
+        <property name="username" value="root"/>
+        <property name="password" value="123456"/>
+    </bean>
+    <!--JdbcTemplate提供数据CRUD的API-->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="employeeDao" class="com.imooc.spring.jdbc.dao.EmployeeDao">
+        <!--为dao注入JdbcTemplate对象-->
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    </bean>
+
+    <bean id="employeeService" class="com.imooc.spring.jdbc.service.EmployeeService">
+        <property name="employeeDao" ref="employeeDao"/>
+    </bean>
+    <!--1、事务管理器，用于创建事务的提交/回滚-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!--2、事务通知配置，决定哪些方法使用事务，哪些方法不使用事务-->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <!-- 目标方法为batchImport时，启用声明式事务，成功提交、运行异常时回滚-->
+            <tx:method name="batchImport" propagation="REQUIRED"/>
+            <!-- 目标方法为batch*，启用声明式事务，成功提交、运行异常时回滚-->
+            <tx:method name="batch*" propagation="REQUIRED"/>
+
+            <!-- 目标方法为find* / get*，不需要事务-->
+            <tx:method name="find*" propagation="NOT_SUPPORTED" read-only="true"/>
+            <tx:method name="get*" propagation="NOT_SUPPORTED" read-only="true"/>
+
+            <!-- 除上面以外的，可以选择事务，也可以不选择是，看需求-->
+            <tx:method name="*" propagation="NOT_SUPPORTED" read-only="true"/>
+
+        </tx:attributes>
+    </tx:advice>
+
+    <!--定义声明式事务的作用范围-->
+    <aop:config>
+        <aop:pointcut id="pointCut" expression="execution(* com.imooc..*Service.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="pointCut"/>
+    </aop:config>
+</beans>
