@@ -20,7 +20,18 @@
     -->
     <context:component-scan base-package="com.imooc.springmvc"/>
     <!--启用Spring MVC的注解开发模式-->
-    <mvc:annotation-driven conversion-service="converterService"/>
+    <mvc:annotation-driven conversion-service="converterService">
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <!-- response.setContentType("text/html;charset=utf-8")-->
+                        <value>text/html;charset=utf-8</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
     <!-- 将图片/JS/CSS等静态资源排除在外，可提高执行效率-->
     <mvc:default-servlet-handler/>
 
@@ -30,6 +41,26 @@
             <set>
                 <bean class="com.imooc.springmvc.converter.MyDateConverter"/>
             </set>
+        </property>
+    </bean>
+
+    <!--启用freemarker模板引擎-->
+    <bean id="ViewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <!--设置响应输出，并解决中文乱码-->
+        <property name="contentType" value="text/html;charset=utf-8"/>
+        <!--指定Freemarker模板文件扩展名-->
+        <property name="suffix" value=".ftl"/>
+    </bean>
+
+    <!-- 配置Freemarker参数-->
+    <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <!--设置模板保存的目录-->
+        <property name="templateLoaderPath" value="/WEB-INF/ftl"/>
+        <!--其他模板引擎设置-->
+        <property name="freemarkerSettings">
+            <props>
+                <prop key="defaultEncoding">UTF-8</prop>
+            </props>
         </property>
     </bean>
 </beans>
