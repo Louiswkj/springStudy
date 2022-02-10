@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://47.114.102.115:3306/mall?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: root
+    password: f6a00783
+    name: mall_datasource
+
+  redis:
+    host: localhost
+    port: 6379
+    password:
+server:
+  port: 8892
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+logging:
+  config: classpath:log4j2.xml
+#  logging.level.com.lawt.repository.mapper:debug
